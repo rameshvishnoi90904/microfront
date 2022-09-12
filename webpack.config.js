@@ -1,15 +1,20 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require("webpack").container.ModuleFederationPlugin;
 const deps = require('./package.json').dependencies
+const path = require('path');
 
 module.exports = {
-    mode: 'development',
     devServer: {
-        port: 8080,
+        port: 8081,
     },
+    // output: {
+    //     filename: 'main.js',
+    //   },
     output: {
-        filename: 'main.js',
-      },
+      path: path.resolve(__dirname, 'build'), // change this
+      publicPath: '/',
+      filename: 'bundle.js'
+    },
       module: {
         rules: [{ 
             test: /\.jsx?$/,
@@ -28,7 +33,7 @@ module.exports = {
         new ModuleFederationPlugin({
             name: "container",
             remotes: {
-                bookingModule:"bookingModule@http://localhost:8082/remoteEntry.js",
+                bookingModule:"bookingModule@https://fluffy-pika-3ce4e7.netlify.app/remoteEntry.js",
               },
             exposes: {
             },
